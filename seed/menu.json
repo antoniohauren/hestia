@@ -1,0 +1,998 @@
+{
+  "currency": "BRL",
+  "priceUnit": "reais (convert to integer cents when seeding)",
+  "categories": [
+    {
+      "name": "Porções",
+      "position": 0,
+      "items": [
+        {
+          "name": "Croquete de cupim",
+          "description": "bolinho de cupim recheado com queijo, molho da casa",
+          "variants": [
+            {
+              "name": null,
+              "price": 25
+            }
+          ]
+        },
+        {
+          "name": "Coxinha sem massa",
+          "description": "Coxinha de frango sem massa com recheio de catupiry",
+          "variants": [
+            {
+              "name": null,
+              "price": 25
+            }
+          ]
+        },
+        {
+          "name": "Bolinho de caranguejo",
+          "description": "Bolinho de caranguejo catupiry e molho da casa",
+          "variants": [
+            {
+              "name": null,
+              "price": 30
+            }
+          ]
+        },
+        {
+          "name": "Camarão empanado",
+          "description": "Camarão empanado no catupiry",
+          "variants": [
+            {
+              "name": null,
+              "price": 30
+            }
+          ]
+        },
+        {
+          "name": "Filé com fritas",
+          "description": "carne acebolada em tiras, batata frita ou macaxeira, farofa panko de bacon e molho da casa",
+          "variants": [
+            {
+              "name": null,
+              "price": 50
+            }
+          ]
+        },
+        {
+          "name": "Frango crocante",
+          "description": "frango empanado crocante, batata frita, molho especial e maionese da casa",
+          "variants": [
+            {
+              "name": null,
+              "price": 50
+            }
+          ]
+        },
+        {
+          "name": "Camarão alho e óleo",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 25
+            }
+          ]
+        },
+        {
+          "name": "Fritas simples",
+          "description": "batata frita e molho",
+          "variants": [
+            {
+              "name": null,
+              "price": 22
+            }
+          ]
+        },
+        {
+          "name": "Fritas cheddar e bacon",
+          "description": "batata frita recheada com cheddar e bacon",
+          "variants": [
+            {
+              "name": null,
+              "price": 27
+            }
+          ]
+        },
+        {
+          "name": "Fritas carne e queijo",
+          "description": "batata frita recheada com queijo e carne desfiada",
+          "variants": [
+            {
+              "name": null,
+              "price": 27
+            }
+          ]
+        },
+        {
+          "name": "Macaxeira simples",
+          "description": "Macaxeira frita e molho",
+          "variants": [
+            {
+              "name": null,
+              "price": 22
+            }
+          ]
+        },
+        {
+          "name": "Macaxeira carne e queijo",
+          "description": "Macaxeira frita recheada com queijo e carne desfiada",
+          "variants": [
+            {
+              "name": null,
+              "price": 25
+            }
+          ]
+        },
+        {
+          "name": "Macaxeira calabresa e catupiry",
+          "description": "Macaxeira frita recheada com calabresa e catupiry",
+          "variants": [
+            {
+              "name": null,
+              "price": 25
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bebidas",
+      "position": 1,
+      "items": [
+        {
+          "name": "Refri lata",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 7
+            }
+          ]
+        },
+        {
+          "name": "Refri litro",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 12
+            }
+          ]
+        },
+        {
+          "name": "Água mineral",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 2
+            }
+          ]
+        },
+        {
+          "name": "Água com gás",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 4
+            }
+          ]
+        },
+        {
+          "name": "Sucos",
+          "description": null,
+          "variants": [
+            {
+              "name": "Copo",
+              "price": 7
+            },
+            {
+              "name": "Jarra",
+              "price": 15
+            }
+          ]
+        },
+        {
+          "name": "Long neck Heineken",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Combos",
+      "position": 2,
+      "items": [
+        {
+          "name": "Combo 1",
+          "description": "22 peças: 5 hot dinamite, 5 hot Filadélfia, 4 Futomaki Atum grelhado, 4 Uramaki camarão cheese, 2 uramaki skim cheese, 2 uramaki Kani cheese. Pode trocar por qualquer peça da lista, mesmo preço.",
+          "variants": [
+            {
+              "name": null,
+              "price": 65.0
+            }
+          ]
+        },
+        {
+          "name": "Combo 2",
+          "description": "36 peças: 5 hot camarão, 5 hot dinamite, 5 hot Filadélfia, 4 Uramaki Atum grelhado, 4 futomaki camarão cheese, 4 Uramaki skim cheese, 3 Uramaki salmão, 2 Uramaki Kani cheese, 4 kani cheese. Pode trocar por qualquer peça da lista, mesmo preço.",
+          "variants": [
+            {
+              "name": null,
+              "price": 90.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Temaki",
+      "position": 3,
+      "items": [
+        {
+          "name": "Salmão cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 32
+            }
+          ]
+        },
+        {
+          "name": "Salmão maçaricado",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 32
+            }
+          ]
+        },
+        {
+          "name": "Salmão cebola roxa",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 32
+            }
+          ]
+        },
+        {
+          "name": "Atum grelhado",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 29
+            }
+          ]
+        },
+        {
+          "name": "Camarão cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 30
+            }
+          ]
+        },
+        {
+          "name": "Camarão empanado",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 31
+            }
+          ]
+        },
+        {
+          "name": "Skim cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 26
+            }
+          ]
+        },
+        {
+          "name": "Kani cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 26
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Temaki Hot",
+      "position": 4,
+      "items": [
+        {
+          "name": "Salmão cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 34
+            }
+          ]
+        },
+        {
+          "name": "Dinamite",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 34
+            }
+          ]
+        },
+        {
+          "name": "Atum grelhado",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 31
+            }
+          ]
+        },
+        {
+          "name": "Camarão cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 32
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sushi Dog",
+      "position": 5,
+      "items": [
+        {
+          "name": "Salmão cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": "Inteiro",
+              "price": 38
+            },
+            {
+              "name": "Meio",
+              "price": 19.0
+            }
+          ]
+        },
+        {
+          "name": "Salmão maçaricado",
+          "description": null,
+          "variants": [
+            {
+              "name": "Inteiro",
+              "price": 38
+            },
+            {
+              "name": "Meio",
+              "price": 19.0
+            }
+          ]
+        },
+        {
+          "name": "Dinamite",
+          "description": null,
+          "variants": [
+            {
+              "name": "Inteiro",
+              "price": 38
+            },
+            {
+              "name": "Meio",
+              "price": 19.0
+            }
+          ]
+        },
+        {
+          "name": "Salmão cebola roxa",
+          "description": null,
+          "variants": [
+            {
+              "name": "Inteiro",
+              "price": 38
+            },
+            {
+              "name": "Meio",
+              "price": 19.0
+            }
+          ]
+        },
+        {
+          "name": "Camarão cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": "Inteiro",
+              "price": 36
+            },
+            {
+              "name": "Meio",
+              "price": 18.0
+            }
+          ]
+        },
+        {
+          "name": "Atum grelhado",
+          "description": null,
+          "variants": [
+            {
+              "name": "Inteiro",
+              "price": 34
+            },
+            {
+              "name": "Meio",
+              "price": 17.0
+            }
+          ]
+        },
+        {
+          "name": "Kani cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": "Inteiro",
+              "price": 32
+            },
+            {
+              "name": "Meio",
+              "price": 16.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Kani",
+      "position": 6,
+      "items": [
+        {
+          "name": "Kani cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 14
+            },
+            {
+              "name": "8 un",
+              "price": 28
+            }
+          ]
+        },
+        {
+          "name": "Kani shake",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 15
+            },
+            {
+              "name": "8 un",
+              "price": 30
+            }
+          ]
+        },
+        {
+          "name": "Kani atum",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 13
+            },
+            {
+              "name": "8 un",
+              "price": 25
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sashimi",
+      "position": 7,
+      "items": [
+        {
+          "name": "Salmão",
+          "description": "1 unidade",
+          "variants": [
+            {
+              "name": null,
+              "price": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Onigiri",
+      "position": 8,
+      "items": [
+        {
+          "name": "Salmão grelhado",
+          "description": "2 unidades",
+          "variants": [
+            {
+              "name": null,
+              "price": 26
+            }
+          ]
+        },
+        {
+          "name": "Camarão cheese",
+          "description": "2 unidades",
+          "variants": [
+            {
+              "name": null,
+              "price": 24
+            }
+          ]
+        },
+        {
+          "name": "Atum grelhado",
+          "description": "2 unidades",
+          "variants": [
+            {
+              "name": null,
+              "price": 23
+            }
+          ]
+        },
+        {
+          "name": "Kani skin cheese",
+          "description": "2 unidades",
+          "variants": [
+            {
+              "name": null,
+              "price": 22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Especiais",
+      "position": 9,
+      "items": [
+        {
+          "name": "Ura camarão empanado",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 14
+            },
+            {
+              "name": "8 un",
+              "price": 28
+            }
+          ]
+        },
+        {
+          "name": "Ura dragon camarão",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 18
+            },
+            {
+              "name": "8 un",
+              "price": 36
+            }
+          ]
+        },
+        {
+          "name": "Ura dragon skin",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 16
+            },
+            {
+              "name": "8 un",
+              "price": 32
+            }
+          ]
+        },
+        {
+          "name": "Jyo",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 17
+            },
+            {
+              "name": "8 un",
+              "price": 34
+            }
+          ]
+        },
+        {
+          "name": "Bora bora",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 18
+            },
+            {
+              "name": "8 un",
+              "price": 36
+            }
+          ]
+        },
+        {
+          "name": "Salmão maçaricado",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 17
+            },
+            {
+              "name": "8 un",
+              "price": 34
+            }
+          ]
+        },
+        {
+          "name": "Salmão ebi empanado",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 18
+            },
+            {
+              "name": "8 un",
+              "price": 36
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Guioza",
+      "position": 10,
+      "items": [
+        {
+          "name": "Bovina",
+          "description": "6 unidades",
+          "variants": [
+            {
+              "name": null,
+              "price": 18
+            }
+          ]
+        },
+        {
+          "name": "Suína",
+          "description": "6 unidades",
+          "variants": [
+            {
+              "name": null,
+              "price": 18
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Uramaki",
+      "position": 11,
+      "items": [
+        {
+          "name": "Salmão",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 13
+            },
+            {
+              "name": "8 un",
+              "price": 26
+            }
+          ]
+        },
+        {
+          "name": "Salmão cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 14
+            },
+            {
+              "name": "8 un",
+              "price": 27
+            }
+          ]
+        },
+        {
+          "name": "Salmão grelhado",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 13
+            },
+            {
+              "name": "8 un",
+              "price": 26
+            }
+          ]
+        },
+        {
+          "name": "Camarão cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 13
+            },
+            {
+              "name": "8 un",
+              "price": 25
+            }
+          ]
+        },
+        {
+          "name": "Atum grelhado",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 12
+            },
+            {
+              "name": "8 un",
+              "price": 23
+            }
+          ]
+        },
+        {
+          "name": "Skin cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 12
+            },
+            {
+              "name": "8 un",
+              "price": 23
+            }
+          ]
+        },
+        {
+          "name": "Kani cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": "4 un",
+              "price": 13
+            },
+            {
+              "name": "8 un",
+              "price": 25
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Futomaki",
+      "position": 12,
+      "items": [
+        {
+          "name": "Salmão",
+          "description": null,
+          "variants": [
+            {
+              "name": "5 un",
+              "price": 14
+            },
+            {
+              "name": "10 un",
+              "price": 27
+            }
+          ]
+        },
+        {
+          "name": "Salmão cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": "5 un",
+              "price": 14
+            },
+            {
+              "name": "10 un",
+              "price": 28
+            }
+          ]
+        },
+        {
+          "name": "Salmão grelhado",
+          "description": null,
+          "variants": [
+            {
+              "name": "5 un",
+              "price": 14
+            },
+            {
+              "name": "10 un",
+              "price": 27
+            }
+          ]
+        },
+        {
+          "name": "Camarão cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": "5 un",
+              "price": 13
+            },
+            {
+              "name": "10 un",
+              "price": 26
+            }
+          ]
+        },
+        {
+          "name": "Atum manga e pepino",
+          "description": null,
+          "variants": [
+            {
+              "name": "5 un",
+              "price": 13
+            },
+            {
+              "name": "10 un",
+              "price": 25
+            }
+          ]
+        },
+        {
+          "name": "Skin cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": "5 un",
+              "price": 12
+            },
+            {
+              "name": "10 un",
+              "price": 24
+            }
+          ]
+        },
+        {
+          "name": "Kani salmão cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": "5 un",
+              "price": 14
+            },
+            {
+              "name": "10 un",
+              "price": 27
+            }
+          ]
+        },
+        {
+          "name": "Califórnia",
+          "description": null,
+          "variants": [
+            {
+              "name": "5 un",
+              "price": 13
+            },
+            {
+              "name": "10 un",
+              "price": 25
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Hots",
+      "position": 13,
+      "items": [
+        {
+          "name": "Hot filadélfia",
+          "description": null,
+          "variants": [
+            {
+              "name": "5 un",
+              "price": 16
+            },
+            {
+              "name": "10 un",
+              "price": 32
+            }
+          ]
+        },
+        {
+          "name": "Dinamite",
+          "description": null,
+          "variants": [
+            {
+              "name": "5 un",
+              "price": 16
+            },
+            {
+              "name": "10 un",
+              "price": 32
+            }
+          ]
+        },
+        {
+          "name": "Camarão cheese",
+          "description": null,
+          "variants": [
+            {
+              "name": "5 un",
+              "price": 16
+            },
+            {
+              "name": "10 un",
+              "price": 32
+            }
+          ]
+        },
+        {
+          "name": "Hot atum grelhado",
+          "description": null,
+          "variants": [
+            {
+              "name": "5 un",
+              "price": 16
+            },
+            {
+              "name": "10 un",
+              "price": 32
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
