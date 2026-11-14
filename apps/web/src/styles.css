@@ -13,6 +13,7 @@
   --overlay: rgb(0 0 0 / 0.4);
   --radius: 10px;
   --nav-h: 52px;
+  --tab-h: 60px;
   color-scheme: light dark;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   font-size: 16px;
@@ -73,9 +74,9 @@ input[type='date'] { width: auto; }
 .primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); font-weight: 600; }
 .danger { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
 .danger-outline { color: var(--accent); border-color: var(--accent); }
-.big { min-height: 52px; font-size: 1.05rem; padding: 0 1.4rem; }
+.big { font-size: 1.05rem; font-weight: 600; padding: 0 1.4rem; }
 .link { border: none; background: none; padding: 0; min-height: 0; color: inherit; }
-.small-btn { min-height: 36px; padding: 0 0.7rem; font-size: 0.9rem; }
+.small-btn { padding: 0 0.7rem; font-size: 0.9rem; }
 
 .muted { color: var(--muted); }
 .small { font-size: 0.85rem; }
@@ -159,11 +160,12 @@ a.list-row:hover { border-color: var(--accent); }
 .chips, .methods, .variants { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0; }
 .chip { border-radius: 999px; }
 .chip.active { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
-.methods .chip { flex: 1 1 40%; min-height: 52px; font-weight: 600; border-radius: var(--radius); }
+.methods .chip { flex: 1 1 40%; font-weight: 600; border-radius: var(--radius); }
 .results { display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.75rem; }
 .result { width: 100%; text-align: left; justify-content: space-between; padding: 0.6rem 0.9rem; min-height: 56px; gap: 1rem; }
 .result .amount { white-space: normal; text-align: right; }
-.result.active { border-color: var(--accent); background: var(--accent-soft); }
+/* the highlighted result is the keyboard cursor; touch screens have no keyboard (matches hasKeyboard) */
+@media (pointer: fine) { .result.active { border-color: var(--accent); background: var(--accent-soft); } }
 .desc { display: block; font-size: 0.85rem; color: var(--muted); white-space: pre-line; }
 .items { display: flex; flex-direction: column; }
 .item-line { display: flex; gap: 0.6rem; align-items: center; padding: 0.55rem 0; border-bottom: 1px solid var(--border); }
@@ -178,6 +180,7 @@ a.list-row:hover { border-color: var(--accent); }
 .stepper button { min-width: 48px; font-size: 1.3rem; }
 .stepper input { text-align: center; }
 .hint { margin: 0.5rem 0 0; }
+.add-items, .tabbar, .cat-toggle { display: none; }
 
 /* Fechar conta */
 .summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
@@ -208,9 +211,60 @@ a.list-row:hover { border-color: var(--accent); }
 @media (max-width: 760px) {
   .main { padding: 0.75rem; }
   .order-layout, .menu-editor { grid-template-columns: 1fr; }
-  .order-panel { position: static; }
+  .order-panel { position: static; order: -1; }
+  /* mobile: bill first; the picker opens in a modal from "Adicionar itens" */
+  .order-layout > .picker { display: none; }
+  .add-items { display: inline-flex; order: 1; }
+  .order-footer .danger-outline { order: -1; }
+  .order-footer .row > * { flex: 1 1 9rem; }
   .result { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
-  /* modal hangs under the nav so the keyboard opening doesn't shove it around */
-  .overlay { top: var(--nav-h); place-items: start center; padding: 0; }
-  .modal { border-radius: 0 0 var(--radius) var(--radius); max-height: calc(100dvh - var(--nav-h)); }
+  /* modals become a page between top and tab bar: page background, content in a card like the order bill */
+  .overlay { bottom: calc(var(--tab-h) + env(safe-area-inset-bottom)); background: var(--bg); place-items: start stretch; grid-template-columns: minmax(0, 1fr); padding: 0.75rem; overflow-y: auto; }
+  .modal { max-width: none; max-height: none; border: 1px solid var(--border); padding: 1rem; overflow: visible; }
+  /* categories only show after tapping "Categorias" */
+  .chips:not(.expanded) { display: none; }
+  .chips.expanded ~ .results { display: none; }
+  .chips.expanded { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .chips.expanded .chip { padding: 0 0.4rem; }
+  /* bigger touch targets */
+  button, .button, input, select { min-height: 48px; }
+  .results { gap: 0.5rem; }
+  .result { padding: 0.9rem 1rem; min-height: 64px; }
+  .chips.expanded .chip, .variants .chip { min-height: 52px; }
+  .stepper button { min-width: 56px; }
+  .item-line { padding: 0.8rem 0; }
+  .list-row { padding: 0.9rem 1rem; }
+  .checklist label { padding: 0.8rem 0; }
+  .cat-toggle { display: inline-flex; min-height: 54px; }
+  .cat-toggle[aria-expanded='true'] { border-color: var(--accent); color: var(--accent); }
+  /* top nav and keyboard hints give way to a bottom tab bar */
+  .nav, .hint { display: none; }
+  .main { padding-bottom: calc(var(--tab-h) + env(safe-area-inset-bottom) + 0.75rem); }
+  .tabbar {
+    display: flex;
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 5;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .tabbar > * {
+    flex: 1;
+    height: var(--tab-h);
+    flex-direction: column;
+    gap: 0.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    border: none;
+    border-radius: 0;
+    background: none;
+    padding: 0;
+  }
+  .tabbar a.active { color: var(--accent); font-weight: 600; }
+  .tabbar .disabled { opacity: 0.4; }
 }

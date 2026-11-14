@@ -2,7 +2,7 @@ import { orderStatusLabels } from '@hestia/types';
 import { useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import { api, call, type MenuItem, type OrderDetail, type OrderItem } from '../api';
-import { ErrorText, Modal, ReasonDialog } from '../components';
+import { ErrorText, Modal, ReasonDialog, hasKeyboard } from '../components';
 import { brl, dateTime, priceLabel } from '../lib/format';
 import { matchVariant, searchItems } from '../lib/search';
 import { useMenu, useOrder, useOrderMutation } from '../queries';
@@ -23,7 +23,9 @@ function OrderView({ order }: { order: OrderDetail }) {
   const [removing, setRemoving] = useState<OrderItem | null>(null);
   const [editing, setEditing] = useState<OrderItem | null>(null);
   const [cancelling, setCancelling] = useState(false);
+  const [adding, setAdding] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
+  const modalSearchRef = useRef<HTMLInputElement>(null);
 
   const remove = useOrderMutation(order.id, (v: { itemId: number; reason: string }) =>
     call(
@@ -38,7 +40,8 @@ function OrderView({ order }: { order: OrderDetail }) {
   );
 
   const active = order.items.filter((i) => i.status === 'active');
-  const removed = order.items.filter((i) => i.status === 'removed');
+  // Removed without a reason = a plain mistake fix; only reasoned removals are worth showing.
+  const removed = order.items.filter((i) => i.status === 'removed' && i.removedReason);
 
   return (
     <div className={open ? 'order-layout' : 'page'}>
@@ -118,6 +121,11 @@ function OrderView({ order }: { order: OrderDetail }) {
           </div>
           <div className="row wrap">
             {open && (
+              <button className="add-items" onClick={() => setAdding(true)}>
+                + Adicionar itens
+              </button>
+            )}
+            {open && (
               <button className="primary big" disabled={order.totalCents === 0} onClick={() => navigate(`/pedidos/${order.id}/pagar`)}>
                 Fechar conta
               </button>
@@ -158,9 +166,14 @@ function OrderView({ order }: { order: OrderDetail }) {
             remove.reset();
           }}
           onConfirm={(reason) =>
-            remove.mutate({ itemId: removing.id, reason }, { onSuccess: () => (setRemoving(null), searchRef.current?.focus()) })
+            remove.mutate({ itemId: removing.id, reason }, { onSuccess: () => (setRemoving(null), hasKeyboard && searchRef.current?.focus()) })
           }
         />
+      )}
+      {adding && (
+        <Modal title="Adicionar itens" onClose={() => setAdding(false)}>
+          <ItemPicker orderId={order.id} searchRef={modalSearchRef} onClose={() => setAdding(false)} />
+        </Modal>
       )}
       {editing && <EditItemDialog orderId={order.id} item={editing} onClose={() => setEditing(null)} />}
       {cancelling && (
@@ -247,10 +260,20 @@ function EditItemDialog({ orderId, item, onClose }: { orderId: number; item: Ord
   );
 }
 
-function ItemPicker({ orderId, searchRef }: { orderId: number; searchRef: React.RefObject<HTMLInputElement | null> }) {
+// With onClose the picker lives inside a modal: picking an item swaps to the add step in place instead of stacking a second modal.
+function ItemPicker({
+  orderId,
+  searchRef,
+  onClose,
+}: {
+  orderId: number;
+  searchRef: React.RefObject<HTMLInputElement | null>;
+  onClose?: () => void;
+}) {
   const menu = useMenu();
   const [query, setQuery] = useState('');
-  const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [categoryId, setCategoryId] = useState<number | 'all'>('all');
+  const [showCats, setShowCats] = useState(false);
   const [index, setIndex] = useState(0);
   const [picking, setPicking] = useState<Pickable | null>(null);
 
@@ -261,16 +284,16 @@ function ItemPicker({ orderId, searchRef }: { orderId: number; searchRef: React.
   );
   const results = query.trim()
     ? searchItems(all, query)
-    : categoryId
-      ? all.filter((i) => i.categoryId === categoryId)
-      : [];
+    : categoryId === 'all'
+      ? all
+      : all.filter((i) => i.categoryId === categoryId);
   const sel = Math.min(index, Math.max(results.length - 1, 0));
 
   function reset() {
     setQuery('');
-    setCategoryId(null);
+    setCategoryId('all');
     setIndex(0);
-    searchRef.current?.focus();
+    if (hasKeyboard) searchRef.current?.focus();
   }
 
   function onKeyDown(e: React.KeyboardEvent) {
@@ -288,34 +311,58 @@ function ItemPicker({ orderId, searchRef }: { orderId: number; searchRef: React.
     }
   }
 
+  const addStep = picking && (
+    <AddItemDialog
+      orderId={orderId}
+      item={picking}
+      initialVariant={matchVariant(picking, query)}
+      inline={!!onClose}
+      onClose={() => {
+        setPicking(null);
+        if (hasKeyboard) searchRef.current?.focus();
+      }}
+      onAdded={() => {
+        setPicking(null);
+        reset();
+      }}
+    />
+  );
+  if (onClose && addStep) return addStep;
+
   return (
     <section className="picker">
-      <input
-        ref={searchRef}
-        className="search"
-        type="search"
-        autoFocus
-        autoComplete="off"
-        placeholder="Buscar item ou categoria…"
-        aria-label="Buscar item"
-        value={query}
-        onChange={(e) => {
-          setQuery(e.target.value);
-          setIndex(0);
-        }}
-        onKeyDown={onKeyDown}
-      />
+      <div className="row">
+        <input
+          ref={searchRef}
+          className="search"
+          type="search"
+          autoFocus={hasKeyboard}
+          autoComplete="off"
+          placeholder="Buscar…"
+          aria-label="Buscar item"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setIndex(0);
+          }}
+          onKeyDown={onKeyDown}
+        />
+        <button className="cat-toggle" aria-expanded={showCats} onClick={() => setShowCats(!showCats)}>
+          Categorias
+        </button>
+      </div>
       <ErrorText error={menu.error} />
       {!query.trim() && (
-        <div className="chips">
-          {menu.data?.map((c) => (
+        <div className={showCats ? 'chips expanded' : 'chips'}>
+          {[{ id: 'all' as const, name: 'Todos' }, ...(menu.data ?? [])].map((c) => (
             <button
               key={c.id}
               className={categoryId === c.id ? 'chip active' : 'chip'}
               onClick={() => {
-                setCategoryId(categoryId === c.id ? null : c.id);
+                setCategoryId(categoryId === c.id ? 'all' : c.id);
+                setShowCats(false);
                 setIndex(0);
-                searchRef.current?.focus();
+                if (hasKeyboard) searchRef.current?.focus();
               }}
             >
               {c.name}
@@ -340,20 +387,12 @@ function ItemPicker({ orderId, searchRef }: { orderId: number; searchRef: React.
           </li>
         ))}
       </ul>
-      {picking && (
-        <AddItemDialog
-          orderId={orderId}
-          item={picking}
-          initialVariant={matchVariant(picking, query)}
-          onClose={() => {
-            setPicking(null);
-            searchRef.current?.focus();
-          }}
-          onAdded={() => {
-            setPicking(null);
-            reset();
-          }}
-        />
+      {onClose ? (
+        <div className="row end">
+          <button onClick={onClose}>Fechar</button>
+        </div>
+      ) : (
+        addStep
       )}
     </section>
   );
@@ -363,12 +402,14 @@ function AddItemDialog({
   orderId,
   item,
   initialVariant,
+  inline,
   onClose,
   onAdded,
 }: {
   orderId: number;
   item: Pickable;
   initialVariant: number;
+  inline?: boolean;
   onClose: () => void;
   onAdded: () => void;
 }) {
@@ -386,53 +427,67 @@ function AddItemDialog({
   const variant = item.variants[variantIdx];
   const multi = item.variants.length > 1;
 
-  return (
-    <Modal title={item.name} onClose={onClose}>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          add.mutate(undefined, { onSuccess: onAdded });
-        }}
-        onKeyDown={(e) => {
-          // Arrows switch variant unless the cashier is editing text in an input.
-          if (!multi || (e.target instanceof HTMLInputElement && e.target.value)) return;
-          if (e.key === 'ArrowRight') setVariantIdx((variantIdx + 1) % item.variants.length);
-          if (e.key === 'ArrowLeft') setVariantIdx((variantIdx - 1 + item.variants.length) % item.variants.length);
-        }}
-      >
-        {item.description && <p className="desc">{item.description}</p>}
-        {multi && (
-          <div className="variants" role="radiogroup" aria-label="Opção">
-            {item.variants.map((v, i) => (
-              <button
-                key={v.id}
-                type="button"
-                role="radio"
-                aria-checked={i === variantIdx}
-                className={i === variantIdx ? 'chip active' : 'chip'}
-                onClick={() => setVariantIdx(i)}
-              >
-                {v.name ?? 'Único'} <span className="small">{brl(v.priceCents)}</span>
-              </button>
-            ))}
-          </div>
-        )}
-        <Stepper value={qty} onChange={setQty} />
-        <label className="field">
-          Observação
-          <input autoFocus value={note} onChange={(e) => setNote(e.target.value)} placeholder="ex.: sem cebola" maxLength={500} />
-        </label>
-        <ErrorText error={add.error} />
-        <div className="row end">
-          <button type="button" onClick={onClose}>
-            Voltar
-          </button>
-          <button className="primary" disabled={add.isPending}>
-            Adicionar {brl(variant.priceCents * qty)}
-          </button>
+  const form = (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        add.mutate(undefined, { onSuccess: onAdded });
+      }}
+      onKeyDown={(e) => {
+        // Arrows switch variant unless the cashier is editing text in an input.
+        if (!multi || (e.target instanceof HTMLInputElement && e.target.value)) return;
+        if (e.key === 'ArrowRight') setVariantIdx((variantIdx + 1) % item.variants.length);
+        if (e.key === 'ArrowLeft') setVariantIdx((variantIdx - 1 + item.variants.length) % item.variants.length);
+      }}
+    >
+      {item.description && <p className="desc">{item.description}</p>}
+      {multi && (
+        <div className="variants" role="radiogroup" aria-label="Opção">
+          {item.variants.map((v, i) => (
+            <button
+              key={v.id}
+              type="button"
+              role="radio"
+              aria-checked={i === variantIdx}
+              className={i === variantIdx ? 'chip active' : 'chip'}
+              onClick={() => setVariantIdx(i)}
+            >
+              {v.name ?? 'Único'} <span className="small">{brl(v.priceCents)}</span>
+            </button>
+          ))}
         </div>
-        {multi && <p className="muted small hint">← → troca a opção · Enter adiciona</p>}
-      </form>
+      )}
+      <Stepper value={qty} onChange={setQty} />
+      <label className="field">
+        Observação
+        <input
+          autoFocus={hasKeyboard}
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          placeholder="ex.: sem cebola"
+          maxLength={500}
+        />
+      </label>
+      <ErrorText error={add.error} />
+      <div className="row end">
+        <button type="button" onClick={onClose}>
+          Voltar
+        </button>
+        <button className="primary" disabled={add.isPending}>
+          Adicionar {brl(variant.priceCents * qty)}
+        </button>
+      </div>
+      {multi && <p className="muted small hint">← → troca a opção · Enter adiciona</p>}
+    </form>
+  );
+  return inline ? (
+    <>
+      <h3>{item.name}</h3>
+      {form}
+    </>
+  ) : (
+    <Modal title={item.name} onClose={onClose}>
+      {form}
     </Modal>
   );
 }

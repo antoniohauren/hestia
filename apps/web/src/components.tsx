@@ -1,6 +1,9 @@
 import { paymentMethodLabels, paymentMethods, type PaymentMethod } from '@hestia/types';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
+// Phones/tablets: auto-focusing opens the on-screen keyboard and hides the UI, so only do it with a mouse.
+export const hasKeyboard = window.matchMedia('(pointer: fine)').matches;
+
 export function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
@@ -49,7 +52,7 @@ export function ReasonDialog({
       >
         <label className="field">
           {optional ? 'Motivo (opcional)' : 'Motivo'}
-          <input autoFocus value={reason} onChange={(e) => setReason(e.target.value)} maxLength={500} />
+          <input autoFocus={!optional || hasKeyboard} value={reason} onChange={(e) => setReason(e.target.value)} maxLength={500} />
         </label>
         <ErrorText error={error} />
         <div className="row end">
