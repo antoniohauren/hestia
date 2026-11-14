@@ -147,7 +147,19 @@
           "description": null,
           "variants": [
             {
-              "name": null,
+              "name": "Coca",
+              "price": 7
+            },
+            {
+              "name": "Coca Zero",
+              "price": 7
+            },
+            {
+              "name": "Guaraná",
+              "price": 7
+            },
+            {
+              "name": "Guaraná Zero",
               "price": 7
             }
           ]
@@ -157,7 +169,19 @@
           "description": null,
           "variants": [
             {
-              "name": null,
+              "name": "Coca",
+              "price": 12
+            },
+            {
+              "name": "Coca Zero",
+              "price": 12
+            },
+            {
+              "name": "Guaraná",
+              "price": 12
+            },
+            {
+              "name": "Guaraná Zero",
               "price": 12
             }
           ]
@@ -179,6 +203,16 @@
             {
               "name": null,
               "price": 4
+            }
+          ]
+        },
+        {
+          "name": "H2O",
+          "description": null,
+          "variants": [
+            {
+              "name": null,
+              "price": 8
             }
           ]
         },
