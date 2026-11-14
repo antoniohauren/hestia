@@ -1,0 +1,14 @@
+{
+  "name": "hestia",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev": "bun run --parallel --filter '@hestia/api' --filter '@hestia/web' dev",
+    "build": "bun run --filter '@hestia/web' build",
+    "start": "bun run --filter '@hestia/api' start",
+    "seed": "bun run --filter '@hestia/api' seed",
+    "db:studio": "bun run --filter '@hestia/api' db:studio",
+    "test": "bun test",
+    "typecheck": "bun run --filter '*' typecheck"
+  }
+}
