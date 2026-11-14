@@ -92,3 +92,11 @@ export const menuItemsRelations = relations(menuItems, ({ one, many }) => ({
 export const itemVariantsRelations = relations(itemVariants, ({ one }) => ({
   item: one(menuItems, { fields: [itemVariants.itemId], references: [menuItems.id] }),
 }));
+
+/** Cash drawer per local day (YYYY-MM-DD): opening float and the amount counted at closing. */
+export const cashDays = sqliteTable('cash_days', {
+  date: text('date').primaryKey(),
+  openingCents: integer('opening_cents').notNull().default(0),
+  countedCents: integer('counted_cents'),
+  updatedAt: integer('updated_at').notNull(),
+});

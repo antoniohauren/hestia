@@ -60,13 +60,14 @@ export const updateItemSchema = z.object({
   variants: z.array(variantInputSchema).min(1, 'Informe ao menos um preço').optional(),
 });
 
+const dateString = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 export const listOrdersQuerySchema = z.object({
   status: z.enum(orderStatuses).optional(),
-  date: z
-    .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/)
-    .optional(),
+  date: dateString.optional(),
 });
+export const dateParam = z.object({ date: dateString });
+const drawerCents = cents.min(0).max(100_000_000);
+export const cashDaySchema = z.object({ openingCents: drawerCents, countedCents: drawerCents.nullable() });
 export const createOrderSchema = z.object({ customerName: text(100) });
 export const addOrderItemSchema = z.object({
   variantId: id,

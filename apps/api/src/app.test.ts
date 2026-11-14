@@ -247,3 +247,31 @@ describe('orders', () => {
     expect((await req('GET', '/api/orders?date=2000-01-01')).body).toEqual([]);
   });
 });
+
+describe('cash', () => {
+  test('expected = opening + cash payments of the day; difference after counting', async () => {
+    const date = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' });
+    const id = await newOrder();
+    await addItem(id, v1.id, 2);
+    const total = v1.priceCents * 2;
+    await req('POST', `/api/orders/${id}/payments`, { method: 'pix', amountCents: v1.priceCents });
+    await req('POST', `/api/orders/${id}/payments`, {
+      method: 'dinheiro',
+      amountCents: total - v1.priceCents,
+      receivedCents: total,
+    });
+
+    const empty = (await req('GET', `/api/cash/${date}`)).body;
+    expect(empty).toMatchObject({ openingCents: 0, countedCents: null, cashInCents: v1.priceCents, differenceCents: null });
+    expect(empty.byMethod).toEqual({ dinheiro: v1.priceCents, credito: 0, debito: 0, pix: v1.priceCents });
+    expect(empty.receivedCents).toBe(total);
+
+    const saved = await req('PUT', `/api/cash/${date}`, { openingCents: 5000, countedCents: 5000 + v1.priceCents - 100 });
+    expect(saved.status).toBe(200);
+    expect(saved.body).toMatchObject({ expectedCents: 5000 + v1.priceCents, differenceCents: -100 });
+    expect((await req('GET', `/api/cash/${date}`)).body.differenceCents).toBe(-100);
+
+    expect((await req('PUT', `/api/cash/${date}`, { openingCents: -1, countedCents: null })).status).toBe(400);
+    expect((await req('GET', '/api/cash/2026-1-1')).status).toBe(400);
+  });
+});

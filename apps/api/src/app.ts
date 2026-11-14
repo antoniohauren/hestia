@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
 import type { DB } from './db/client';
 import { authRoutes, requireAuth } from './routes/auth';
+import { cashRoutes } from './routes/cash';
 import { menuRoutes } from './routes/menu';
 import { orderRoutes } from './routes/orders';
 
@@ -12,7 +13,8 @@ export function createApp({ db, pin, secret, timeZone, secureCookie }: AppDeps) 
     .use('*', requireAuth(secret))
     .route('/auth', authRoutes({ pin, secret, secure: secureCookie }))
     .route('/', menuRoutes(db))
-    .route('/orders', orderRoutes(db, timeZone));
+    .route('/orders', orderRoutes(db, timeZone))
+    .route('/cash', cashRoutes(db, timeZone));
 
   return new Hono()
     .onError((err, c) => {
